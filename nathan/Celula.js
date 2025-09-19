@@ -1,12 +1,14 @@
 import styles from './CelulaStyles';
 
-import { TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 
 export default function Celula({valor, onClick}){
 
     return (
-        <TouchableOpacity style={styles.celula} onClick={onClick}>
-            {valor}
+        <TouchableOpacity style={styles.celula} onPress={onClick}>
+            <Text>
+                {valor}
+            </Text>
         </TouchableOpacity>
     )
 }
