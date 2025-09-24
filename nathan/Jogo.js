@@ -5,11 +5,13 @@ import Cabecalho from './Cabecalho';
 import Celula from './Celula';
 import Rodape from './Rodape';
 import { useState } from 'react';
-import { Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { View } from 'react-native';
 
 export default function Jogo() {
 
     const [vezJogador, setVezJogador] = useState('x');
+    const [vitoriasX, setVitoriasX] = useState(0);
+    const [vitoriasO, setVitoriasO] = useState(0);
     const [estadoTabuleiro, setEstadoTabuleiro] = useState(Array(9).fill(null));
     const [historicoJogadas, setHistoricoJogadas] = useState([]);
 
@@ -44,7 +46,6 @@ export default function Jogo() {
     }
 
     function handleClickCelula(i) {
-        //Se a posição estiver vazia
         if (estadoTabuleiro[i] == null && fimJogo(estadoTabuleiro) == null) {
             let vez = vezJogador
             let jogada = [...estadoTabuleiro]
@@ -55,12 +56,16 @@ export default function Jogo() {
             historico.push(jogada);
 
             const vencedor = fimJogo(jogada);
-            if (vencedor != null){
+            if (vencedor == 'x'){
+                setVitoriasX(vitoriasX + 1);
                 alert(`O jogo acabou. ${vencedor} venceu!!!`);
-            } else {
-                if (deuVelha(jogada)) {
-                    alert(`O jogo acabou. Deu velha!!!`);
-                }
+            }
+            if (vencedor == 'o') {
+                setVitoriasO(vitoriasO + 1);
+                alert(`O jogo acabou. ${vencedor} venceu!!!`);
+            }
+            if (vencedor == null  && deuVelha(jogada)) {
+                alert(`O jogo acabou. Deu velha!!!`);
             }
             setVezJogador(vez)
             setEstadoTabuleiro(jogada)
@@ -69,8 +74,8 @@ export default function Jogo() {
     }
 
     return (
-        <ScrollView style={style.jogo}>
-            <Cabecalho vezJogador={vezJogador} />
+        <View style={style.jogo}>
+            <Cabecalho style={style.cabecalho} vezJogador={vezJogador} vitoriasX={vitoriasX} vitoriasO={vitoriasO} reiniciar={reiniciar} />
             <View style={style.tabuleiro}>
                 <View style={style.linhaTabuleiro}>
                     <Celula valor={estadoTabuleiro[0]} onClick={() => handleClickCelula(0)} />
@@ -88,10 +93,7 @@ export default function Jogo() {
                     <Celula valor={estadoTabuleiro[8]} onClick={() => handleClickCelula(8)} />
                 </View>
             </View>
-            <TouchableOpacity onClick={reiniciar}>
-                <Text>Reiniciar</Text>
-            </TouchableOpacity>
-            <Rodape jogadas={historicoJogadas} voltarJogada={voltarJogada} />
-        </ScrollView>
+            <Rodape style={style.rodape} jogadas={historicoJogadas} voltarJogada={voltarJogada} />
+        </View>
     )
 }
