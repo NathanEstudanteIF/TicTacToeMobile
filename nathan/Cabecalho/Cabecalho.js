@@ -1,8 +1,19 @@
-import styles from './CabecalhoStyles';
+import stylePortrait from './CabecalhoStylePortrait.js';
+import styleLandscape from './CabecalhoStyleLandscape.js';
 
-import { Text, TouchableOpacity, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
 export default function Cabecalho({ vezJogador, vitoriasX, vitoriasO, reiniciar }){
+    const { width, height } = useWindowDimensions();
+    const isLandscape = width > height;
+
+    const [styles, setStyles] = useState(stylePortrait);
+
+    useEffect(() => {
+        setStyles(isLandscape ? styleLandscape : stylePortrait);
+    }, [isLandscape])
+
     return (
         <View style={styles.cabecalho}>
             <Text style={styles.title}>Jogo da Velha</Text>

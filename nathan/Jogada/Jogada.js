@@ -1,7 +1,19 @@
-import { Text, TouchableOpacity, View } from 'react-native'
-import styles from './JogadaStyles'
+import stylePortrait from './JogadaStylePortrait.js';
+import styleLandscape from './JogadaStyleLandscape.js';
+
+import { Text, TouchableOpacity, useWindowDimensions } from 'react-native'
+import { useEffect, useState } from 'react';
 
 export default function Jogada(props){
+    const { width, height } = useWindowDimensions();
+    const isLandscape = width > height;
+
+    const [styles, setStyles] = useState(stylePortrait);
+
+    useEffect(() => {
+        setStyles(isLandscape ? styleLandscape : stylePortrait);
+    }, [isLandscape])
+
     const jogada = props.jogada
     return (
             <TouchableOpacity style={styles.jogada} onPress={props.voltarJogada}>

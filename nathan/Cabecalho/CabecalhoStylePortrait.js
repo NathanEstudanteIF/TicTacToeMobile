@@ -20,12 +20,6 @@ export default StyleSheet.create({
         justifyContent: 'center',
         gap: 12,
     },
-    section: {
-        flex: 0.5,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        gap: 12,
-    },
     title: {
         fontSize: 32,
         textAlign: 'center',
@@ -35,7 +29,7 @@ export default StyleSheet.create({
         borderRadius: 10,
         paddingVertical: 6,
         paddingHorizontal: 8,
-        backgroundColor: '#929292',
+        backgroundColor: '#ccc',
     },
     leftText: {
         fontSize: 18,

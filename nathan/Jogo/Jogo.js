@@ -1,13 +1,22 @@
-import './JogoStyles.js';
+import './JogoStylePortrait.js';
 
-import style from './JogoStyles.js';
-import Cabecalho from './Cabecalho';
-import Celula from './Celula';
-import Rodape from './Rodape';
-import { useState } from 'react';
-import { View } from 'react-native';
+import stylePortrait from './JogoStylePortrait.js';
+import styleLandscape from './JogoStyleLandscape.js';
+import Cabecalho from '../Cabecalho/Cabecalho.js';
+import Celula from '../Celula/Celula.js';
+import Rodape from '../Rodape/Rodape.js';
+import { useEffect, useState } from 'react';
+import { useWindowDimensions, View } from 'react-native';
 
 export default function Jogo() {
+    const { width, height } = useWindowDimensions();
+    const isLandscape = width > height;
+
+    const [style, setStyle] = useState(stylePortrait);
+
+    useEffect(() => {
+        setStyle(isLandscape ? styleLandscape : stylePortrait);
+    }, [isLandscape])
 
     const [vezJogador, setVezJogador] = useState('x');
     const [vitoriasX, setVitoriasX] = useState(0);
